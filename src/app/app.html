@@ -1,0 +1,8 @@
+<app-navbar [activeTab]="activeTab" (tabChange)="setTab($event)"></app-navbar>
+<div class="bg-slate-900 p-4 h-auto">
+  <app-task-table *ngIf="activeTab === 'table'"></app-task-table>
+  <app-kanban-board
+    *ngIf="activeTab === 'kanban'"
+    class="mt-8"
+  ></app-kanban-board>
+</div>

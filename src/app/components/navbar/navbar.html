@@ -1,0 +1,18 @@
+<nav class="flex items-center gap-6 bg-slate-900 px-6 py-4 ">
+  <button
+    class="flex items-center gap-2 px-4 py-2 rounded-t-lg font-semibold focus:outline-none transition border-b-4"
+    [ngClass]="activeTab === 'table' ? 'border-blue-400 text-blue-300 bg-slate-800' : 'border-transparent text-slate-300 hover:text-blue-200'"
+    (click)="setTab('table')"
+  >
+    <span class="material-icons align-middle">home</span>
+    Main Table
+  </button>
+  <button
+    class="flex items-center gap-2 px-4 py-2 rounded-t-lg font-semibold focus:outline-none transition border-b-4"
+    [ngClass]="activeTab === 'kanban' ? 'border-blue-400 text-blue-300 bg-slate-800' : 'border-transparent text-slate-300 hover:text-blue-200'"
+    (click)="setTab('kanban')"
+  >
+    <span class="material-icons align-middle">view_kanban</span>
+    Kanban
+  </button>
+</nav>

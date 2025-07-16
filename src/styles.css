@@ -1,0 +1,84 @@
+@import "@ng-select/ng-select/themes/default.theme.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Ensure Angular Material overlays (like datepicker) appear above custom modals */
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.mat-select-slate900 .mat-mdc-select-panel {
+  background-color: #0f172a !important; /* Tailwind bg-slate-900 */
+}
+
+/* Custom style for all mat-form-field to look like search input: transparent bg, only bottom border, no radius */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background: transparent !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-outline,
+.mat-form-field-appearance-fill .mat-form-field-outline-thick,
+.mat-form-field-appearance-fill .mat-form-field-underline {
+  display: none !important;
+  height: 0 !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-infix {
+  padding: 0.5rem !important;
+}
+
+.mat-form-field-appearance-fill .mat-input-element {
+  background: transparent !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  padding: 0.5rem !important;
+  color: #fff !important;
+}
+
+.mat-form-field-appearance-fill .mat-input-element:focus,
+.mat-form-field-appearance-fill .mat-input-element:active,
+.mat-form-field-appearance-fill .mat-input-element:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--focused {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled){
+    background-color: #3a4551 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input,.mat-mdc-select,.mat-mdc-form-field-icon-suffix,.mat-mdc-icon-button img,
+.mat-mdc-icon-button svg{
+    color: #fff !important;
+}
+
+/* Custom scrollbar for Kanban columns */
+.bg-slate-800.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b #1e293b; /* thumb, track */
+}
+.bg-slate-800.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+  background: #1e293b;
+  border-radius: 8px;
+}
+.bg-slate-800.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 8px;
+}
+.bg-slate-800.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

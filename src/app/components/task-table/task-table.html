@@ -1,0 +1,559 @@
+<div class="flex items-center gap-2 mb-4">
+  <button
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded flex items-center gap-2 shadow"
+    (click)="addNewTask()"
+  >
+    <span class="material-icons text-base">add</span>
+    New Task
+  </button>
+  <div class="relative">
+    <span
+      class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+      >search</span
+    >
+    <input
+      type="text"
+      class="pl-8 pr-3 py-2 rounded bg-slate-700 text-slate-200 outline-none"
+      placeholder="Search task name..."
+      [(ngModel)]="searchTerm"
+      (input)="handleSearch()"
+      style="min-width: 180px"
+    />
+  </div>
+  <button
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    tabindex="0"
+    (click)="togglePersonDropdown()"
+    (blur)="showPersonDropdown = false"
+  >
+    <span class="material-icons">person</span>
+    <span class="hidden sm:inline">Person</span>
+    <div
+      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      *ngIf="showPersonDropdown"
+    >
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="
+          selectedPerson = ''; handleSearch(); showPersonDropdown = false
+        "
+      >
+        All Person
+      </div>
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        *ngFor="let dev of allDevelopers"
+        (click)="
+          selectedPerson = dev; handleSearch(); showPersonDropdown = false
+        "
+      >
+        {{ dev }}
+      </div>
+    </div>
+  </button>
+  <button
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    tabindex="0"
+    (click)="toggleSortDropdown()"
+    (blur)="showSortDropdown = false"
+  >
+    <span class="material-icons">sort</span>
+    <span class="hidden sm:inline">Sort</span>
+    <div
+      class="absolute left-0 top-full mt-1 w-24 bg-slate-800 text-slate-200 rounded shadow z-20"
+      *ngIf="showSortDropdown"
+    >
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="sortOrder = 'asc'; handleSearch(); showSortDropdown = false"
+      >
+        Asc
+      </div>
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="sortOrder = 'desc'; handleSearch(); showSortDropdown = false"
+      >
+        Desc
+      </div>
+    </div>
+  </button>
+</div>
+<div
+  class="flex items-center gap-2 mb-2 text-purple-300 font-bold text-lg cursor-pointer select-none"
+>
+  <span class="material-icons">expand_more</span>
+  All Task
+</div>
+<div class="bg-slate-800 p-4 shadow-lg overflow-x-auto rounded-xl">
+  <table
+    class="min-w-full text-sm text-slate-200 border border-slate-700 rounded-xl"
+    style="border-left-width: 6px; border-left-color: #a78bfa"
+  >
+    <thead>
+      <tr class="border-b border-slate-700">
+        <th class="px-2 py-2 text-center w-8 border border-slate-700">
+          <input
+            type="checkbox"
+            class="custom-checkbox w-4 h-4 bg-slate-800 border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
+          />
+        </th>
+        <th
+          colspan="2"
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('title')"
+        >
+          Task
+          <span *ngIf="sortColumn === 'title'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('developer')"
+        >
+          Developer
+          <span *ngIf="sortColumn === 'developer'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('status')"
+        >
+          Status
+          <span *ngIf="sortColumn === 'status'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('priority')"
+        >
+          Priority
+          <span *ngIf="sortColumn === 'priority'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('type')"
+        >
+          Type
+          <span *ngIf="sortColumn === 'type'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('date')"
+        >
+          Date
+          <span *ngIf="sortColumn === 'date'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('estimatedSP')"
+        >
+          Estimated SP
+          <span *ngIf="sortColumn === 'estimatedSP'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th
+          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
+          (click)="setSortColumn('actualSP')"
+        >
+          Actual SP
+          <span *ngIf="sortColumn === 'actualSP'">{{
+            sortOrder === "asc" ? "▲" : "▼"
+          }}</span>
+        </th>
+        <th class="px-4 py-2 text-center border border-slate-700">
+          <span class="material-icons align-middle">add</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let task of pagedTasks"
+        class="border-b border-slate-800 hover:bg-slate-800 transition"
+      >
+        <td class="px-2 py-2 text-center border border-slate-700">
+          <input
+            type="checkbox"
+            class="custom-checkbox w-4 h-4 bg-transparent border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
+          />
+        </td>
+        <td
+          class="px-4 py-2 border border-slate-700"
+          (click)="startEdit(task.id, 'title')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'title';
+              else showTitle
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="task.title"
+                (blur)="stopEdit()"
+                (keydown.enter)="stopEdit()"
+              />
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showTitle>{{ task.title }}</ng-template>
+        </td>
+        <td class="px-4 py-2 text-center border border-slate-700">
+          <span
+            class="material-icons text-slate-400 cursor-pointer hover:text-slate-600"
+            >add_comment</span
+          >
+        </td>
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          (click)="startEdit(task.id, 'developer')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'developer';
+              else showDev
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-select
+                [multiple]="true"
+                [(ngModel)]="editingDevelopers"
+                (ngModelChange)="onMultiSelectDeveloperListbox(task)"
+                placeholder="Pilih developer..."
+                panelClass="mat-select-slate900"
+              >
+                <mat-option *ngFor="let dev of allDevelopers" [value]="dev">
+                  <img
+                    [src]="'assets/user-avatar.png'"
+                    [alt]="dev"
+                    class="inline-block w-6 h-6 rounded-full mr-2 align-middle"
+                    [title]="dev"
+                  />
+                  {{ dev }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showDev>
+            <ng-container *ngFor="let dev of task.developer.split(',')">
+              <img
+                [src]="'assets/user-avatar.png'"
+                [alt]="dev.trim()"
+                class="inline-block w-6 h-6 rounded-full mr-1 align-middle"
+                [title]="dev.trim()"
+              />
+              <span class="mr-2">{{ dev.trim() }}</span>
+            </ng-container>
+          </ng-template>
+        </td>
+        <!-- Kolom Status -->
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          [ngClass]="{
+            'bg-sky-400 text-white':
+              task.status === 'Ready to start' &&
+              !(editingRowId === task.id && editingField === 'status'),
+            'bg-yellow-400 text-slate-900':
+              task.status === 'In Progress' &&
+              !(editingRowId === task.id && editingField === 'status'),
+            'bg-blue-300 text-slate-900':
+              task.status === 'Waiting for review' &&
+              !(editingRowId === task.id && editingField === 'status'),
+            'bg-pink-300 text-slate-900':
+              task.status === 'Pending Deploy' &&
+              !(editingRowId === task.id && editingField === 'status'),
+            'bg-green-400 text-slate-900':
+              task.status === 'Done' &&
+              !(editingRowId === task.id && editingField === 'status'),
+            'bg-red-500 text-white':
+              task.status === 'Stuck' &&
+              !(editingRowId === task.id && editingField === 'status')
+          }"
+          (click)="startEdit(task.id, 'status')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'status';
+              else showStatus
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-select
+                [(ngModel)]="task.status"
+                (selectionChange)="stopEdit()"
+                (closed)="stopEdit()"
+                panelClass="mat-select-slate900"
+                placeholder="Pilih status..."
+                autofocus
+              >
+                <mat-option value="Ready to start">Ready to start</mat-option>
+                <mat-option value="In Progress">In Progress</mat-option>
+                <mat-option value="Waiting for review"
+                  >Waiting for review</mat-option
+                >
+                <mat-option value="Pending Deploy">Pending Deploy</mat-option>
+                <mat-option value="Done">Done</mat-option>
+                <mat-option value="Stuck">Stuck</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showStatus>
+            {{ task.status }}
+          </ng-template>
+        </td>
+        <!-- Kolom Priority -->
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          [ngClass]="{
+            'bg-red-400 text-white':
+              task.priority === 'Critical' &&
+              !(editingRowId === task.id && editingField === 'priority'),
+            'bg-pink-300 text-slate-900':
+              task.priority === 'High' &&
+              !(editingRowId === task.id && editingField === 'priority'),
+            'bg-blue-300 text-slate-900':
+              task.priority === 'Medium' &&
+              !(editingRowId === task.id && editingField === 'priority'),
+            'bg-yellow-400 text-slate-900':
+              task.priority === 'Low' &&
+              !(editingRowId === task.id && editingField === 'priority'),
+            'bg-slate-400 text-slate-900':
+              task.priority === 'Best Effort' &&
+              !(editingRowId === task.id && editingField === 'priority')
+          }"
+          (click)="startEdit(task.id, 'priority')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'priority';
+              else showPriority
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-select
+                [(ngModel)]="task.priority"
+                (selectionChange)="stopEdit()"
+                (closed)="stopEdit()"
+                panelClass="mat-select-slate900"
+                placeholder="Pilih priority..."
+                autofocus
+              >
+                <mat-option value="Critical">Critical</mat-option>
+                <mat-option value="High">High</mat-option>
+                <mat-option value="Medium">Medium</mat-option>
+                <mat-option value="Low">Low</mat-option>
+                <mat-option value="Best Effort">Best Effort</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showPriority>
+            {{ task.priority }}
+          </ng-template>
+        </td>
+        <!-- Kolom Type -->
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          [ngClass]="{
+            'bg-purple-200 text-slate-900':
+              task.type === 'Feature Enhancements' &&
+              !(editingRowId === task.id && editingField === 'type'),
+            'bg-pink-200 text-slate-900':
+              task.type === 'Other' &&
+              !(editingRowId === task.id && editingField === 'type'),
+            'bg-red-200 text-slate-900':
+              task.type === 'Bug' &&
+              !(editingRowId === task.id && editingField === 'type')
+          }"
+          (click)="startEdit(task.id, 'type')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'type';
+              else showType
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-select
+                [(ngModel)]="task.type"
+                (selectionChange)="stopEdit()"
+                (closed)="stopEdit()"
+                panelClass="mat-select-slate900"
+                placeholder="Pilih type..."
+                autofocus
+              >
+                <mat-option value="Feature Enhancements"
+                  >Feature Enhancements</mat-option
+                >
+                <mat-option value="Other">Other</mat-option>
+                <mat-option value="Bug">Bug</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showType>
+            {{ task.type }}
+          </ng-template>
+        </td>
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          (click)="startEdit(task.id, 'date')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'date';
+              else showDate
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [(ngModel)]="task.date"
+                (dateChange)="stopEdit()"
+                class="text-black"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showDate>{{
+            task.date | date : "dd MMM, yyyy"
+          }}</ng-template>
+        </td>
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          (click)="startEdit(task.id, 'estimatedSP')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'estimatedSP';
+              else showEstSP
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="task.estimatedSP"
+                (blur)="stopEdit()"
+                (keydown.enter)="stopEdit()"
+                class="text-black"
+              />
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showEstSP>{{ task.estimatedSP }} SP</ng-template>
+        </td>
+        <td
+          class="px-4 py-2 border border-slate-700 text-center"
+          (click)="startEdit(task.id, 'actualSP')"
+        >
+          <ng-container
+            *ngIf="
+              editingRowId === task.id && editingField === 'actualSP';
+              else showActSP
+            "
+          >
+            <mat-form-field appearance="fill" class="w-full">
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="task.actualSP"
+                (blur)="stopEdit()"
+                (keydown.enter)="stopEdit()"
+                class="text-black"
+              />
+            </mat-form-field>
+          </ng-container>
+          <ng-template #showActSP>{{ task.actualSP }} SP</ng-template>
+        </td>
+      </tr>
+      <tr>
+        <td class="px-2 py-2 text-center border border-slate-700">
+          <input
+            type="checkbox"
+            disabled
+            class="custom-checkbox w-4 h-4 bg-transparent border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
+          />
+        </td>
+        <td colspan="9" class="px-4 py-2 border border-slate-700">
+          <span class="material-icons align-middle">add</span>
+          <span class="text-slate-200">Add Task</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" class="border-none"></td>
+        <td class="px-4 py-2"></td>
+        <td class="px-2 py-2">
+          <div class="grid grid-cols-3 gap-0 w-full">
+            <div class="h-10 bg-blue-400"></div>
+            <div class="h-10 bg-yellow-400"></div>
+            <div class="h-10 bg-pink-300"></div>
+          </div>
+        </td>
+        <td class="px-2 py-2">
+          <div class="grid grid-cols-3 gap-0 w-full">
+            <div class="h-10 bg-slate-700"></div>
+            <div class="h-10 bg-purple-300"></div>
+            <div class="h-10 bg-sky-400"></div>
+          </div>
+        </td>
+        <td class="px-2 py-2">
+          <div class="grid grid-cols-3 gap-0 w-full">
+            <div class="h-10 bg-green-400"></div>
+            <div class="h-10 bg-red-500"></div>
+            <div class="h-10 bg-purple-300"></div>
+          </div>
+        </td>
+        <td class="px-2 py-2 text-center"></td>
+        <td class="px-2 py-2 text-center">
+          {{ sumEstimatedSP }}SP
+          <p><sub>SUM</sub></p>
+        </td>
+        <td class="px-2 py-2 text-center">
+          {{ sumActualSP }}SP
+          <p><sub>SUM</sub></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-center items-center gap-2 mt-4">
+    <button
+      (click)="setPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50"
+    >
+      Prev
+    </button>
+    <ng-container
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+    >
+      <button
+        (click)="setPage(i + 1)"
+        [class.bg-blue-500]="currentPage === i + 1"
+        class="px-2 py-1 rounded text-slate-200"
+        [class.bg-slate-700]="currentPage !== i + 1"
+      >
+        {{ i + 1 }}
+      </button>
+    </ng-container>
+    <button
+      (click)="setPage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50"
+    >
+      Next
+    </button>
+  </div>
+</div>

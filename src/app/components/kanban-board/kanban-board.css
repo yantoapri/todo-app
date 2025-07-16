@@ -1,0 +1,49 @@
+.kanban-col {
+  min-width: 260px;
+  margin-right: 24px;
+}
+.kanban-header {
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem 1rem 0 0;
+  text-align: left;
+}
+.kanban-card {
+  background: #23263a;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  padding: 1.25rem 1rem 1rem 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.kanban-card:hover {
+  box-shadow: 0 4px 16px 0 rgba(80,80,255,0.15);
+  background: #262a40;
+}
+.kanban-card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.kanban-badge {
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.7rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+.kanban-avatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+.kanban-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

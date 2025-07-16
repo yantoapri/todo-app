@@ -1,0 +1,33 @@
+.modal-container {
+  background: #1e293b; /* Tailwind bg-slate-800 */
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  max-width: 420px;
+  margin: 2rem auto;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: #334155 !important; /* Tailwind bg-slate-700 */
+  color: #f1f5f9 !important; /* Tailwind slate-100 */
+  border-radius: 0.75rem;
+}
+
+::ng-deep .mat-form-field-label {
+  color: #cbd5e1 !important; /* Tailwind slate-300 */
+}
+
+::ng-deep .mat-input-element, ::ng-deep .mat-select-value-text {
+  color: #f1f5f9 !important; /* Tailwind slate-100 */
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex.mat-focused {
+  box-shadow: 0 0 0 2px #6366f1;
+}
+
+@media (max-width: 600px) {
+  .modal-container {
+    max-width: 98vw;
+    padding: 0.5rem;
+  }
+}

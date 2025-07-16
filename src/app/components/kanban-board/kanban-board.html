@@ -1,0 +1,323 @@
+<div class="flex items-center gap-3 mb-4 p-4 bg-slate-900 rounded-xl shadow">
+  <button
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded flex items-center gap-2 shadow"
+    (click)="openNewTaskModal()"
+  >
+    <span class="material-icons text-base">add</span>
+    New task
+  </button>
+  <div class="relative">
+    <span
+      class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+      >search</span
+    >
+    <input
+      type="text"
+      class="pl-8 pr-3 py-2 rounded bg-slate-700 text-slate-200 outline-none"
+      placeholder="Search..."
+      style="min-width: 180px"
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+  <!-- Person Filter Dropdown -->
+  <button
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    tabindex="0"
+    (click)="togglePersonDropdown()"
+    (blur)="showPersonDropdown = false"
+  >
+    <span class="material-icons">person</span>
+    <span class="hidden sm:inline">Person</span>
+    <div
+      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      *ngIf="showPersonDropdown"
+    >
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="selectedDeveloper = ''; showPersonDropdown = false"
+      >
+        All Person
+      </div>
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        *ngFor="let dev of uniqueDevelopers"
+        (click)="selectedDeveloper = dev; showPersonDropdown = false"
+      >
+        {{ dev }}
+      </div>
+    </div>
+  </button>
+  <!-- Sort Dropdown -->
+  <button
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    tabindex="0"
+    (click)="toggleSortDropdown()"
+    (blur)="showSortDropdown = false"
+  >
+    <span class="material-icons">sort</span>
+    <span class="hidden sm:inline">Sort</span>
+    <div
+      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      *ngIf="showSortDropdown"
+    >
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="sortDirection = 'asc'; showSortDropdown = false"
+      >
+        Asc
+      </div>
+      <div
+        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        (click)="sortDirection = 'desc'; showSortDropdown = false"
+      >
+        Desc
+      </div>
+    </div>
+  </button>
+  <div class="flex items-center gap-1 ml-4">
+    <div class="w-8 h-4 rounded bg-blue-400"></div>
+    <div class="w-8 h-4 rounded bg-yellow-400"></div>
+    <div class="w-8 h-4 rounded bg-sky-400"></div>
+  </div>
+</div>
+<div class="flex gap-3 shadow-lg">
+  <div class="kanban-col">
+    <div class="kanban-header bg-blue-500 text-slate-300">
+      Ready to start {{ readyToStart.length }}
+    </div>
+    <div
+      cdkDropList
+      id="readyToStartList"
+      [cdkDropListData]="readyToStart"
+      (cdkDropListDropped)="onTaskDrop($event, 'Ready to start')"
+      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+    >
+      <ng-container *ngFor="let task of readyToStart">
+        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
+          <div class="kanban-card-title">{{ task.title }}</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span
+              class="rounded p-1 bg-slate-800 text-slate-300 border-l-4 border-blue-600"
+              >{{ task.priority }}</span
+            >
+            <span class="rounded p-1 bg-slate-800 text-slate-300"
+              ><span class="bg-slate-900 rounded p-1">{{
+                task.estimatedSP
+              }}</span>
+              SP</span
+            >
+            <span
+              class="rounded p-1 bg-slate-800 text-slate-300 border-l-4 border-purple-600"
+              >{{ task.type }}</span
+            >
+          </div>
+          <div class="kanban-footer justify-between items-end">
+            <div>
+              <span *ngIf="true">
+                <img
+                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                  alt="avatar"
+                  class="kanban-avatar"
+                />
+              </span>
+              <ng-template #noAvatar>
+                <span class="kanban-avatar bg-slate-700 inline-block"></span>
+              </ng-template>
+              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >mode_comment</span
+              >
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >local_offer</span
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="kanban-col">
+    <div class="kanban-header bg-yellow-400 text-white">
+      In Progress {{ inProgress.length }}
+    </div>
+    <div
+      cdkDropList
+      id="inProgressList"
+      [cdkDropListData]="inProgress"
+      (cdkDropListDropped)="onTaskDrop($event, 'In Progress')"
+      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+    >
+      <ng-container *ngFor="let task of inProgress">
+        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
+          <div class="kanban-card-title">{{ task.title }}</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span
+              class="bg-slate-800 p-1 rounded border-l-4 border-slite-400"
+              >{{ task.priority }}</span
+            >
+            <span class="bg-slate-800 p-1 rounded text-slate-300"
+              ><span class="bg-slate-900 rounded p-1">{{
+                task.estimatedSP
+              }}</span>
+              SP</span
+            >
+            <span
+              class="bg-slate-800 p-1 rounded border-l-4 border-yellow-400"
+              >{{ task.type }}</span
+            >
+          </div>
+          <div class="kanban-footer justify-between items-end">
+            <div>
+              <span >
+                <img
+                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                  alt="avatar"
+                  class="kanban-avatar"
+                />
+              </span>
+              <ng-template #noAvatar2>
+                <span class="kanban-avatar bg-slate-700 inline-block"></span>
+              </ng-template>
+              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >mode_comment</span
+              >
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >local_offer</span
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="kanban-col">
+    <div class="kanban-header bg-blue-300 text-slate-300">
+      Waiting for review {{ waitingForReview.length }}
+    </div>
+    <div
+      cdkDropList
+      id="waitingForReviewList"
+      [cdkDropListData]="waitingForReview"
+      (cdkDropListDropped)="onTaskDrop($event, 'Waiting for review')"
+      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+    >
+      <ng-container *ngFor="let task of waitingForReview">
+        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
+          <div class="kanban-card-title">{{ task.title }}</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span
+              class="bg-slate-800 p-1 rounded border-l-4 border-blue-300 text-slate-300"
+              >{{ task.priority }}</span
+            >
+            <span
+              class="bg-slate-800 p-1 rounded border-l-4 border-sky-400 text-slate-300"
+              ><span class="bg-slate-900 rounded p-1">{{
+                task.estimatedSP
+              }}</span>
+              SP</span
+            >
+            <span
+              class="bg-slate-800 p-1 border-l-4 rounded border-pink-800 text-slate-300"
+              >{{ task.type }}</span
+            >
+          </div>
+          <div class="kanban-footer justify-between items-end">
+            <div>
+              <span >
+                <img
+                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                  alt="avatar"
+                  class="kanban-avatar"
+                />
+              </span>
+              <ng-template #noAvatar3>
+                <span class="kanban-avatar bg-slate-700 inline-block"></span>
+              </ng-template>
+              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >mode_comment</span
+              >
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >local_offer</span
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="kanban-col">
+    <div class="kanban-header bg-green-400 text-white">
+      Done {{ done.length }}
+    </div>
+    <div
+      cdkDropList
+      id="doneList"
+      [cdkDropListData]="done"
+      (cdkDropListDropped)="onTaskDrop($event, 'Done')"
+      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+    >
+      <ng-container *ngFor="let task of done">
+        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
+          <div class="kanban-card-title">{{ task.title }}</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span
+              class="bg-slate-800 rwounded p-1 border-l-4 border-green-400 text-slate-300"
+              >{{ task.priority }}</span
+            >
+            <span
+              class="bg-slate-800 rounded p-1 border-l-4 border-red-500 text-slate-300"
+            >
+              <span class="bg-slate-900 rounded p-1">{{
+                task.estimatedSP
+              }}</span>
+              SP</span
+            >
+            <span
+              class="bg-slate-800 rounded p-1 border-l-4 border-purple-300 text-slate-300"
+              >{{ task.type }}</span
+            >
+          </div>
+          <div class="kanban-footer justify-between items-end">
+            <div>
+              <span >
+                <img
+                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                  alt="avatar"
+                  class="kanban-avatar"
+                />
+              </span>
+              <ng-template #noAvatar4>
+                <span class="kanban-avatar bg-slate-700 inline-block"></span>
+              </ng-template>
+              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >mode_comment</span
+              >
+              <span
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                >local_offer</span
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
