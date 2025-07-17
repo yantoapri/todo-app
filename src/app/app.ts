@@ -4,11 +4,9 @@ import { Navbar } from './components/navbar/navbar';
 import { TaskTable } from './components/task-table/task-table';
 import { KanbanBoard } from './components/kanban-board/kanban-board';
 
-import { NgSelectModule } from '@ng-select/ng-select';
-
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Navbar, TaskTable, KanbanBoard, NgSelectModule],
+  imports: [CommonModule, Navbar, TaskTable, KanbanBoard],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

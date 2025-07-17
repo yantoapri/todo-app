@@ -1,76 +1,69 @@
-<div class="flex items-center gap-2 mb-4">
+<div class="flex items-center gap-1 mb-2">
   <button
-    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded flex items-center gap-2 shadow"
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded-md flex items-center gap-1 shadow text-xs h-8"
     (click)="addNewTask()"
   >
-    <span class="material-icons text-base">add</span>
+    <span class="material-icons text-xs">add</span>
     New Task
   </button>
   <div class="relative">
-    <span
-      class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-      >search</span
-    >
+    <span class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs">search</span>
     <input
       type="text"
-      class="pl-8 pr-3 py-2 rounded bg-slate-700 text-slate-200 outline-none"
+      class="pl-7 pr-2 py-1 rounded-md bg-slate-700 text-slate-200 outline-none text-xs h-8"
       placeholder="Search task name..."
       [(ngModel)]="searchTerm"
       (input)="handleSearch()"
-      style="min-width: 180px"
+      style="min-width: 140px"
     />
   </div>
   <button
-    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded-md flex items-center gap-1 relative text-xs h-8"
     tabindex="0"
     (click)="togglePersonDropdown()"
     (blur)="showPersonDropdown = false"
   >
-    <span class="material-icons">person</span>
+    <span class="material-icons text-xs">person</span>
     <span class="hidden sm:inline">Person</span>
     <div
-      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      class="absolute left-0 top-full mt-1 w-32 bg-slate-800 text-slate-200 rounded shadow z-20 text-xs"
       *ngIf="showPersonDropdown"
     >
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
-        (click)="
-          selectedPerson = ''; handleSearch(); showPersonDropdown = false
-        "
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
+        (click)="selectedPerson = ''; handleSearch(); showPersonDropdown = false"
       >
         All Person
       </div>
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         *ngFor="let dev of allDevelopers"
-        (click)="
-          selectedPerson = dev; handleSearch(); showPersonDropdown = false
-        "
+        (click)="selectedPerson = dev; handleSearch(); showPersonDropdown = false"
       >
         {{ dev }}
       </div>
     </div>
   </button>
   <button
-    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded-md flex items-center gap-1 relative text-xs h-8"
     tabindex="0"
     (click)="toggleSortDropdown()"
     (blur)="showSortDropdown = false"
   >
-    <span class="material-icons">sort</span>
+    <span class="material-icons text-xs">sort</span>
     <span class="hidden sm:inline">Sort</span>
     <div
-      class="absolute left-0 top-full mt-1 w-24 bg-slate-800 text-slate-200 rounded shadow z-20"
+      class="absolute left-0 top-full mt-1 w-20 bg-slate-800 text-slate-200 rounded shadow z-20 text-xs"
       *ngIf="showSortDropdown"
     >
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         (click)="sortOrder = 'asc'; handleSearch(); showSortDropdown = false"
       >
         Asc
       </div>
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         (click)="sortOrder = 'desc'; handleSearch(); showSortDropdown = false"
       >
         Desc
@@ -78,100 +71,54 @@
     </div>
   </button>
 </div>
-<div
-  class="flex items-center gap-2 mb-2 text-purple-300 font-bold text-lg cursor-pointer select-none"
->
-  <span class="material-icons">expand_more</span>
+<div class="flex items-center gap-1 mb-1 text-purple-300 font-bold text-base cursor-pointer select-none">
+  <span class="material-icons text-base">expand_more</span>
   All Task
 </div>
-<div class="bg-slate-800 p-4 shadow-lg overflow-x-auto rounded-xl">
-  <table
-    class="min-w-full text-sm text-slate-200 border border-slate-700 rounded-xl"
-    style="border-left-width: 6px; border-left-color: #a78bfa"
-  >
+<div class="bg-slate-800 p-2 shadow-lg overflow-x-auto rounded-lg">
+  <table class="min-w-full text-xs text-slate-200 border border-slate-700 rounded-lg">
     <thead>
       <tr class="border-b border-slate-700">
-        <th class="px-2 py-2 text-center w-8 border border-slate-700">
-          <input
+        <th class="px-1 py-1 text-center w-6 border border-slate-700">
+            <input
             type="checkbox"
-            class="custom-checkbox w-4 h-4 bg-slate-800 border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
+            class="custom-checkbox w-4 h-4 bg-transparent border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
           />
         </th>
-        <th
-          colspan="2"
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('title')"
-        >
+        <th colspan="2" class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('title')">
           Task
-          <span *ngIf="sortColumn === 'title'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'title'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('developer')"
-        >
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('developer')">
           Developer
-          <span *ngIf="sortColumn === 'developer'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'developer'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('status')"
-        >
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('status')">
           Status
-          <span *ngIf="sortColumn === 'status'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'status'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('priority')"
-        >
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('priority')">
           Priority
-          <span *ngIf="sortColumn === 'priority'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'priority'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('type')"
-        >
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('type')">
           Type
-          <span *ngIf="sortColumn === 'type'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'type'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('date')"
-        >
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('date')">
           Date
-          <span *ngIf="sortColumn === 'date'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+          <span *ngIf="sortColumn === 'date'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('estimatedSP')"
-        >
-          Estimated SP
-          <span *ngIf="sortColumn === 'estimatedSP'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('estimatedSP')">
+          Est. SP
+          <span *ngIf="sortColumn === 'estimatedSP'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th
-          class="px-4 py-2 text-center border border-slate-700 cursor-pointer"
-          (click)="setSortColumn('actualSP')"
-        >
-          Actual SP
-          <span *ngIf="sortColumn === 'actualSP'">{{
-            sortOrder === "asc" ? "▲" : "▼"
-          }}</span>
+        <th class="px-2 py-1 text-center border border-slate-700 cursor-pointer" (click)="setSortColumn('actualSP')">
+          Act. SP
+          <span *ngIf="sortColumn === 'actualSP'">{{ sortOrder === "asc" ? "▲" : "▼" }}</span>
         </th>
-        <th class="px-4 py-2 text-center border border-slate-700">
-          <span class="material-icons align-middle">add</span>
+        <th class="px-2 py-1 text-center border border-slate-700">
+          <span class="material-icons align-middle text-xs">add</span>
         </th>
       </tr>
     </thead>
@@ -180,14 +127,14 @@
         *ngFor="let task of pagedTasks"
         class="border-b border-slate-800 hover:bg-slate-800 transition"
       >
-        <td class="px-2 py-2 text-center border border-slate-700">
+        <td class="px-1 py-1 text-center border border-slate-700">
           <input
             type="checkbox"
             class="custom-checkbox w-4 h-4 bg-transparent border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
           />
         </td>
         <td
-          class="px-4 py-2 border border-slate-700"
+          class="px-2 py-1 border border-slate-700"
           (click)="startEdit(task.id, 'title')"
         >
           <ng-container
@@ -208,14 +155,14 @@
           </ng-container>
           <ng-template #showTitle>{{ task.title }}</ng-template>
         </td>
-        <td class="px-4 py-2 text-center border border-slate-700">
+        <td class="px-2 py-1 text-center border border-slate-700">
           <span
             class="material-icons text-slate-400 cursor-pointer hover:text-slate-600"
             >add_comment</span
           >
         </td>
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           (click)="startEdit(task.id, 'developer')"
         >
           <ng-container
@@ -258,7 +205,7 @@
         </td>
         <!-- Kolom Status -->
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           [ngClass]="{
             'bg-sky-400 text-white':
               task.status === 'Ready to start' &&
@@ -313,7 +260,7 @@
         </td>
         <!-- Kolom Priority -->
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           [ngClass]="{
             'bg-red-400 text-white':
               task.priority === 'Critical' &&
@@ -362,7 +309,7 @@
         </td>
         <!-- Kolom Type -->
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           [ngClass]="{
             'bg-purple-200 text-slate-900':
               task.type === 'Feature Enhancements' &&
@@ -404,7 +351,7 @@
           </ng-template>
         </td>
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           (click)="startEdit(task.id, 'date')"
         >
           <ng-container
@@ -433,7 +380,7 @@
           }}</ng-template>
         </td>
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           (click)="startEdit(task.id, 'estimatedSP')"
         >
           <ng-container
@@ -456,7 +403,7 @@
           <ng-template #showEstSP>{{ task.estimatedSP }} SP</ng-template>
         </td>
         <td
-          class="px-4 py-2 border border-slate-700 text-center"
+          class="px-2 py-1 border border-slate-700 text-center"
           (click)="startEdit(task.id, 'actualSP')"
         >
           <ng-container
@@ -480,59 +427,59 @@
         </td>
       </tr>
       <tr>
-        <td class="px-2 py-2 text-center border border-slate-700">
+        <td class="px-1 py-1 text-center border border-slate-700">
           <input
             type="checkbox"
             disabled
             class="custom-checkbox w-4 h-4 bg-transparent border border-slate-700 rounded focus:ring-0 focus:outline-none accent-blue-500"
           />
         </td>
-        <td colspan="9" class="px-4 py-2 border border-slate-700">
+        <td colspan="9" class="px-2 py-1 border border-slate-700">
           <span class="material-icons align-middle">add</span>
           <span class="text-slate-200">Add Task</span>
         </td>
       </tr>
       <tr>
         <td colspan="3" class="border-none"></td>
-        <td class="px-4 py-2"></td>
-        <td class="px-2 py-2">
+        <td class="px-2 py-1"></td>
+        <td class="px-1 py-1">
           <div class="grid grid-cols-3 gap-0 w-full">
             <div class="h-10 bg-blue-400"></div>
             <div class="h-10 bg-yellow-400"></div>
             <div class="h-10 bg-pink-300"></div>
           </div>
         </td>
-        <td class="px-2 py-2">
+        <td class="px-1 py-1">
           <div class="grid grid-cols-3 gap-0 w-full">
             <div class="h-10 bg-slate-700"></div>
             <div class="h-10 bg-purple-300"></div>
             <div class="h-10 bg-sky-400"></div>
           </div>
         </td>
-        <td class="px-2 py-2">
+        <td class="px-1 py-1">
           <div class="grid grid-cols-3 gap-0 w-full">
             <div class="h-10 bg-green-400"></div>
             <div class="h-10 bg-red-500"></div>
             <div class="h-10 bg-purple-300"></div>
           </div>
         </td>
-        <td class="px-2 py-2 text-center"></td>
-        <td class="px-2 py-2 text-center">
+        <td class="px-1 py-1 text-center"></td>
+        <td class="px-1 py-1 text-center">
           {{ sumEstimatedSP }}SP
           <p><sub>SUM</sub></p>
         </td>
-        <td class="px-2 py-2 text-center">
+        <td class="px-1 py-1 text-center">
           {{ sumActualSP }}SP
           <p><sub>SUM</sub></p>
         </td>
       </tr>
     </tbody>
   </table>
-  <div class="flex justify-center items-center gap-2 mt-4">
+  <div class="flex justify-center items-center gap-1 mt-2">
     <button
       (click)="setPage(currentPage - 1)"
       [disabled]="currentPage === 1"
-      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50"
+      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50 text-xs"
     >
       Prev
     </button>
@@ -542,7 +489,7 @@
       <button
         (click)="setPage(i + 1)"
         [class.bg-blue-500]="currentPage === i + 1"
-        class="px-2 py-1 rounded text-slate-200"
+        class="px-2 py-1 rounded text-slate-200 text-xs"
         [class.bg-slate-700]="currentPage !== i + 1"
       >
         {{ i + 1 }}
@@ -551,7 +498,7 @@
     <button
       (click)="setPage(currentPage + 1)"
       [disabled]="currentPage === totalPages"
-      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50"
+      class="px-2 py-1 rounded bg-slate-700 text-slate-200 disabled:opacity-50 text-xs"
     >
       Next
     </button>

@@ -7,12 +7,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Task</mat-label>
-          <input matInput [(ngModel)]="title" name="title" required />
+          <input matInput [(ngModel)]="newTask.title" name="title" required />
         </mat-form-field>
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Developer</mat-label>
           <mat-select
-            [(ngModel)]="developer"
+            [(ngModel)]="newTask.developer"
             name="developer"
             [multiple]="true"
           >
@@ -23,7 +23,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="status" name="status">
+          <mat-select [(ngModel)]="newTask.status" name="status">
             <mat-option value="Ready to start">Ready to start</mat-option>
             <mat-option value="In Progress">In Progress</mat-option>
             <mat-option value="Waiting for review"
@@ -36,7 +36,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Priority</mat-label>
-          <mat-select [(ngModel)]="priority" name="priority">
+          <mat-select [(ngModel)]="newTask.priority" name="priority">
             <mat-option value="Critical">Critical</mat-option>
             <mat-option value="High">High</mat-option>
             <mat-option value="Medium">Medium</mat-option>
@@ -46,7 +46,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Type</mat-label>
-          <mat-select [(ngModel)]="type" name="type">
+          <mat-select [(ngModel)]="newTask.type" name="type">
             <mat-option value="Feature Enhancements"
               >Feature Enhancements</mat-option
             >
@@ -59,7 +59,7 @@
           <input
             matInput
             [matDatepicker]="picker"
-            [(ngModel)]="date"
+            [(ngModel)]="newTask.date"
             name="date"
           />
           <mat-datepicker-toggle
@@ -73,7 +73,7 @@
           <input
             matInput
             type="number"
-            [(ngModel)]="estimatedSP"
+            [(ngModel)]="newTask.estimatedSP"
             name="estimatedSP"
           />
         </mat-form-field>
@@ -82,7 +82,7 @@
           <input
             matInput
             type="number"
-            [(ngModel)]="actualSP"
+            [(ngModel)]="newTask.actualSP"
             name="actualSP"
           />
         </mat-form-field>

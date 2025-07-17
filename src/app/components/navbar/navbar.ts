@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css'
+  styleUrl: './navbar.css',
 })
 export class Navbar {
   @Input() activeTab: 'table' | 'kanban' = 'table';

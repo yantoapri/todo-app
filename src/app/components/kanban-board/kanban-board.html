@@ -1,45 +1,51 @@
-<div class="flex items-center gap-3 mb-4 p-4 bg-slate-900 rounded-xl shadow">
+<!-- Header Kanban Board - Kontrol dan Filter -->
+<div class="flex items-center gap-1 mb-2 p-2 bg-slate-900 rounded-lg shadow">
+  <!-- Tombol tambah task baru -->
   <button
-    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded flex items-center gap-2 shadow"
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded-md flex items-center gap-1 shadow text-xs h-8"
     (click)="openNewTaskModal()"
   >
-    <span class="material-icons text-base">add</span>
+    <span class="material-icons text-xs">add</span>
     New task
   </button>
+
+  <!-- Input pencarian dengan icon -->
   <div class="relative">
     <span
-      class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+      class="material-icons absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"
       >search</span
     >
     <input
       type="text"
-      class="pl-8 pr-3 py-2 rounded bg-slate-700 text-slate-200 outline-none"
+      class="pl-7 pr-2 py-1 rounded-md bg-slate-700 text-slate-200 outline-none text-xs h-8"
       placeholder="Search..."
-      style="min-width: 180px"
+      style="min-width: 120px"
       [(ngModel)]="searchTerm"
     />
   </div>
-  <!-- Person Filter Dropdown -->
+
+  <!-- Dropdown filter developer -->
   <button
-    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded-md flex items-center gap-1 relative text-xs h-8"
     tabindex="0"
     (click)="togglePersonDropdown()"
     (blur)="showPersonDropdown = false"
   >
-    <span class="material-icons">person</span>
+    <span class="material-icons text-xs">person</span>
     <span class="hidden sm:inline">Person</span>
+    <!-- Menu dropdown -->
     <div
-      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      class="absolute left-0 top-full mt-1 w-32 bg-slate-800 text-slate-200 rounded shadow z-20 text-xs"
       *ngIf="showPersonDropdown"
     >
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         (click)="selectedDeveloper = ''; showPersonDropdown = false"
       >
         All Person
       </div>
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         *ngFor="let dev of uniqueDevelopers"
         (click)="selectedDeveloper = dev; showPersonDropdown = false"
       >
@@ -47,91 +53,108 @@
       </div>
     </div>
   </button>
-  <!-- Sort Dropdown -->
+
+  <!-- Dropdown sort -->
   <button
-    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded flex items-center gap-1 relative"
+    class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded-md flex items-center gap-1 relative text-xs h-8"
     tabindex="0"
     (click)="toggleSortDropdown()"
     (blur)="showSortDropdown = false"
   >
-    <span class="material-icons">sort</span>
+    <span class="material-icons text-xs">sort</span>
     <span class="hidden sm:inline">Sort</span>
+    <!-- Opsi sort -->
     <div
-      class="absolute left-0 top-full mt-1 w-40 bg-slate-800 text-slate-200 rounded shadow z-20"
+      class="absolute left-0 top-full mt-1 w-20 bg-slate-800 text-slate-200 rounded shadow z-20 text-xs"
       *ngIf="showSortDropdown"
     >
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         (click)="sortDirection = 'asc'; showSortDropdown = false"
       >
         Asc
       </div>
       <div
-        class="px-3 py-2 cursor-pointer hover:bg-slate-700"
+        class="px-2 py-1 cursor-pointer hover:bg-slate-700"
         (click)="sortDirection = 'desc'; showSortDropdown = false"
       >
         Desc
       </div>
     </div>
   </button>
-  <div class="flex items-center gap-1 ml-4">
-    <div class="w-8 h-4 rounded bg-blue-400"></div>
-    <div class="w-8 h-4 rounded bg-yellow-400"></div>
-    <div class="w-8 h-4 rounded bg-sky-400"></div>
+
+  <!-- Indikator warna status -->
+  <div class="flex items-center gap-1 ml-2">
+    <div class="w-6 h-3 rounded bg-blue-400"></div>
+    <div class="w-6 h-3 rounded bg-yellow-400"></div>
+    <div class="w-6 h-3 rounded bg-sky-400"></div>
   </div>
 </div>
-<div class="flex gap-3 shadow-lg">
+
+<!-- Kolom-kolom Kanban Board -->
+<div class="flex gap-2 shadow-lg">
+  <!-- Kolom Ready to Start -->
   <div class="kanban-col">
-    <div class="kanban-header bg-blue-500 text-slate-300">
+    <div
+      class="kanban-header bg-blue-500 text-slate-300 text-xs py-1 px-2 rounded-t-md"
+    >
       Ready to start {{ readyToStart.length }}
     </div>
+    <!-- Drop zone untuk task yang siap -->
     <div
       cdkDropList
       id="readyToStartList"
       [cdkDropListData]="readyToStart"
       (cdkDropListDropped)="onTaskDrop($event, 'Ready to start')"
-      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+      class="bg-slate-800 overflow-y-auto h-[70vh] rounded-b-md p-1 flex flex-col gap-1"
     >
+      <!-- Kartu-kartu task -->
       <ng-container *ngFor="let task of readyToStart">
-        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
-          <div class="kanban-card-title">{{ task.title }}</div>
-          <div class="flex flex-wrap gap-2 text-xs">
+        <div
+          cdkDrag
+          class="bg-slate-900 rounded-md p-1.5 text-slate-300 text-xs flex flex-col gap-1"
+        >
+          <!-- Judul task -->
+          <div class="kanban-card-title font-semibold text-xs mb-0.5">
+            {{ task.title }}
+          </div>
+          <!-- Badge metadata task -->
+          <div class="flex flex-wrap gap-0.5 text-[10px]">
             <span
-              class="rounded p-1 bg-slate-800 text-slate-300 border-l-4 border-blue-600"
+              class="rounded px-1 py-0.5 bg-slate-800 text-slate-300 border-l-2 border-blue-600"
               >{{ task.priority }}</span
             >
-            <span class="rounded p-1 bg-slate-800 text-slate-300"
-              ><span class="bg-slate-900 rounded p-1">{{
+            <span class="rounded px-1 py-0.5 bg-slate-800 text-slate-300"
+              ><span class="bg-slate-900 rounded px-0.5 py-0.5">{{
                 task.estimatedSP
               }}</span>
               SP</span
             >
             <span
-              class="rounded p-1 bg-slate-800 text-slate-300 border-l-4 border-purple-600"
+              class="rounded px-1 py-0.5 bg-slate-800 text-slate-300 border-l-2 border-purple-600"
               >{{ task.type }}</span
             >
           </div>
-          <div class="kanban-footer justify-between items-end">
-            <div>
-              <span *ngIf="true">
-                <img
-                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
-                  alt="avatar"
-                  class="kanban-avatar"
-                />
-              </span>
-              <ng-template #noAvatar>
-                <span class="kanban-avatar bg-slate-700 inline-block"></span>
-              </ng-template>
-              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+          <!-- Footer task dengan developer dan aksi -->
+          <div class="kanban-footer flex justify-between items-end mt-0.5">
+            <div class="flex items-center gap-1">
+              <img
+                [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                alt="avatar"
+                class="kanban-avatar w-4 h-4"
+              />
+              <span class="text-[10px] text-slate-300">{{
+                task.developer
+              }}</span>
             </div>
-            <div class="flex gap-2 items-center">
+            <!-- Tombol aksi -->
+            <div class="flex gap-1 items-center">
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >mode_comment</span
               >
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >local_offer</span
               >
             </div>
@@ -140,8 +163,12 @@
       </ng-container>
     </div>
   </div>
+
+  <!-- Kolom In Progress -->
   <div class="kanban-col">
-    <div class="kanban-header bg-yellow-400 text-white">
+    <div
+      class="kanban-header bg-yellow-400 text-white text-xs py-1 px-2 rounded-t-md"
+    >
       In Progress {{ inProgress.length }}
     </div>
     <div
@@ -149,48 +176,50 @@
       id="inProgressList"
       [cdkDropListData]="inProgress"
       (cdkDropListDropped)="onTaskDrop($event, 'In Progress')"
-      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+      class="bg-slate-800 overflow-y-auto h-[70vh] rounded-b-md p-1 flex flex-col gap-1"
     >
       <ng-container *ngFor="let task of inProgress">
-        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
-          <div class="kanban-card-title">{{ task.title }}</div>
-          <div class="flex flex-wrap gap-2 text-xs">
+        <div
+          cdkDrag
+          class="bg-slate-900 rounded-md p-1.5 text-slate-300 text-xs flex flex-col gap-1"
+        >
+          <div class="kanban-card-title font-semibold text-xs mb-0.5">
+            {{ task.title }}
+          </div>
+          <div class="flex flex-wrap gap-0.5 text-[10px]">
             <span
-              class="bg-slate-800 p-1 rounded border-l-4 border-slite-400"
+              class="bg-slate-800 px-1 py-0.5 rounded border-l-2 border-yellow-400"
               >{{ task.priority }}</span
             >
-            <span class="bg-slate-800 p-1 rounded text-slate-300"
-              ><span class="bg-slate-900 rounded p-1">{{
+            <span class="bg-slate-800 px-1 py-0.5 rounded text-slate-300"
+              ><span class="bg-slate-900 rounded px-0.5 py-0.5">{{
                 task.estimatedSP
               }}</span>
               SP</span
             >
             <span
-              class="bg-slate-800 p-1 rounded border-l-4 border-yellow-400"
+              class="bg-slate-800 px-1 py-0.5 rounded border-l-2 border-yellow-400"
               >{{ task.type }}</span
             >
           </div>
-          <div class="kanban-footer justify-between items-end">
-            <div>
-              <span >
-                <img
-                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
-                  alt="avatar"
-                  class="kanban-avatar"
-                />
-              </span>
-              <ng-template #noAvatar2>
-                <span class="kanban-avatar bg-slate-700 inline-block"></span>
-              </ng-template>
-              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+          <div class="kanban-footer flex justify-between items-end mt-0.5">
+            <div class="flex items-center gap-1">
+              <img
+                [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                alt="avatar"
+                class="kanban-avatar w-4 h-4"
+              />
+              <span class="text-[10px] text-slate-300">{{
+                task.developer
+              }}</span>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex gap-1 items-center">
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >mode_comment</span
               >
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >local_offer</span
               >
             </div>
@@ -199,8 +228,12 @@
       </ng-container>
     </div>
   </div>
+
+  <!-- Kolom Waiting for Review -->
   <div class="kanban-col">
-    <div class="kanban-header bg-blue-300 text-slate-300">
+    <div
+      class="kanban-header bg-blue-300 text-slate-300 text-xs py-1 px-2 rounded-t-md"
+    >
       Waiting for review {{ waitingForReview.length }}
     </div>
     <div
@@ -208,49 +241,51 @@
       id="waitingForReviewList"
       [cdkDropListData]="waitingForReview"
       (cdkDropListDropped)="onTaskDrop($event, 'Waiting for review')"
-      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+      class="bg-slate-800 overflow-y-auto h-[70vh] rounded-b-md p-1 flex flex-col gap-1"
     >
       <ng-container *ngFor="let task of waitingForReview">
-        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
-          <div class="kanban-card-title">{{ task.title }}</div>
-          <div class="flex flex-wrap gap-2 text-xs">
+        <div
+          cdkDrag
+          class="bg-slate-900 rounded-md p-1.5 text-slate-300 text-xs flex flex-col gap-1"
+        >
+          <div class="kanban-card-title font-semibold text-xs mb-0.5">
+            {{ task.title }}
+          </div>
+          <div class="flex flex-wrap gap-0.5 text-[10px]">
             <span
-              class="bg-slate-800 p-1 rounded border-l-4 border-blue-300 text-slate-300"
+              class="bg-slate-800 px-1 py-0.5 rounded border-l-2 border-blue-300 text-slate-300"
               >{{ task.priority }}</span
             >
             <span
-              class="bg-slate-800 p-1 rounded border-l-4 border-sky-400 text-slate-300"
-              ><span class="bg-slate-900 rounded p-1">{{
+              class="bg-slate-800 px-1 py-0.5 rounded border-l-2 border-sky-400 text-slate-300"
+              ><span class="bg-slate-900 rounded px-0.5 py-0.5">{{
                 task.estimatedSP
               }}</span>
               SP</span
             >
             <span
-              class="bg-slate-800 p-1 border-l-4 rounded border-pink-800 text-slate-300"
+              class="bg-slate-800 px-1 py-0.5 border-l-2 rounded border-pink-800 text-slate-300"
               >{{ task.type }}</span
             >
           </div>
-          <div class="kanban-footer justify-between items-end">
-            <div>
-              <span >
-                <img
-                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
-                  alt="avatar"
-                  class="kanban-avatar"
-                />
-              </span>
-              <ng-template #noAvatar3>
-                <span class="kanban-avatar bg-slate-700 inline-block"></span>
-              </ng-template>
-              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+          <div class="kanban-footer flex justify-between items-end mt-0.5">
+            <div class="flex items-center gap-1">
+              <img
+                [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                alt="avatar"
+                class="kanban-avatar w-4 h-4"
+              />
+              <span class="text-[10px] text-slate-300">{{
+                task.developer
+              }}</span>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex gap-1 items-center">
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >mode_comment</span
               >
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >local_offer</span
               >
             </div>
@@ -259,8 +294,12 @@
       </ng-container>
     </div>
   </div>
+
+  <!-- Kolom Done -->
   <div class="kanban-col">
-    <div class="kanban-header bg-green-400 text-white">
+    <div
+      class="kanban-header bg-green-400 text-white text-xs py-1 px-2 rounded-t-md"
+    >
       Done {{ done.length }}
     </div>
     <div
@@ -268,50 +307,51 @@
       id="doneList"
       [cdkDropListData]="done"
       (cdkDropListDropped)="onTaskDrop($event, 'Done')"
-      class="bg-slate-800 overflow-y-auto h-[75vh] rounded-b-lg p-4 flex flex-col gap-2"
+      class="bg-slate-800 overflow-y-auto h-[70vh] rounded-b-md p-1 flex flex-col gap-1"
     >
       <ng-container *ngFor="let task of done">
-        <div cdkDrag class="bg-slate-900 rounded-lg p-4 text-slate-300">
-          <div class="kanban-card-title">{{ task.title }}</div>
-          <div class="flex flex-wrap gap-2 text-xs">
+        <div
+          cdkDrag
+          class="bg-slate-900 rounded-md p-1.5 text-slate-300 text-xs flex flex-col gap-1"
+        >
+          <div class="kanban-card-title font-semibold text-xs mb-0.5">
+            {{ task.title }}
+          </div>
+          <div class="flex flex-wrap gap-0.5 text-[10px]">
             <span
-              class="bg-slate-800 rwounded p-1 border-l-4 border-green-400 text-slate-300"
+              class="bg-slate-800 rounded px-1 py-0.5 border-l-2 border-green-400 text-slate-300"
               >{{ task.priority }}</span
             >
             <span
-              class="bg-slate-800 rounded p-1 border-l-4 border-red-500 text-slate-300"
-            >
-              <span class="bg-slate-900 rounded p-1">{{
+              class="bg-slate-800 rounded px-1 py-0.5 border-l-2 border-red-500 text-slate-300"
+              ><span class="bg-slate-900 rounded px-0.5 py-0.5">{{
                 task.estimatedSP
               }}</span>
               SP</span
             >
             <span
-              class="bg-slate-800 rounded p-1 border-l-4 border-purple-300 text-slate-300"
+              class="bg-slate-800 rounded px-1 py-0.5 border-l-2 border-purple-300 text-slate-300"
               >{{ task.type }}</span
             >
           </div>
-          <div class="kanban-footer justify-between items-end">
-            <div>
-              <span >
-                <img
-                  [src]="task.avatarUrl || 'assets/user-avatar.png'"
-                  alt="avatar"
-                  class="kanban-avatar"
-                />
-              </span>
-              <ng-template #noAvatar4>
-                <span class="kanban-avatar bg-slate-700 inline-block"></span>
-              </ng-template>
-              <span class="text-xs text-slate-300">{{ task.developer }}</span>
+          <div class="kanban-footer flex justify-between items-end mt-0.5">
+            <div class="flex items-center gap-1">
+              <img
+                [src]="task.avatarUrl || 'assets/user-avatar.png'"
+                alt="avatar"
+                class="kanban-avatar w-4 h-4"
+              />
+              <span class="text-[10px] text-slate-300">{{
+                task.developer
+              }}</span>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex gap-1 items-center">
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >mode_comment</span
               >
               <span
-                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-base align-middle"
+                class="material-icons text-slate-500 hover:text-slate-300 cursor-pointer text-xs align-middle"
                 >local_offer</span
               >
             </div>

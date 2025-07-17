@@ -50,6 +50,43 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: none !important;
 }
 
+/* Custom styles for outline appearance (used in Kanban board) */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  background: #1e293b !important; /* bg-slate-800 */
+  border-radius: 0.375rem !important;
+  border: 1px solid #475569 !important; /* border-slate-600 */
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  display: none !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.25rem 0.5rem !important;
+  border: none !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  color: #94a3b8 !important; /* text-slate-400 */
+  font-size: 0.75rem !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-flex {
+  border-color: #3b82f6 !important; /* border-blue-500 */
+  box-shadow: 0 0 0 1px #3b82f6 !important;
+}
+
+.mat-form-field-appearance-outline .mat-select-value {
+  color: #e2e8f0 !important; /* text-slate-200 */
+  font-size: 0.75rem !important;
+}
+
+.mat-form-field-appearance-outline .mat-select-arrow {
+  color: #94a3b8 !important; /* text-slate-400 */
+}
+
 .mdc-text-field--filled.mdc-text-field--focused {
   box-shadow: none !important;
   border: none !important;
